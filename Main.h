@@ -29,6 +29,7 @@ private:
 	cCamera* pCamera;	//!<　@brief カメラ操作用ポインタ
 	cLight* pLight;		//!<　@brief ライト操作用ポインタ
 	cBillboard* pTex;
+	cImage3D* imaage;
 };
 
 

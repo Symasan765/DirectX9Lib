@@ -14,16 +14,17 @@
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================ƒƒCƒ“ˆ—‚ð‘‚¢‚Ä============================*/
 	if (GetKey->Press(DIK_UP))
-		pCamera->Rotation(1.0f, 0.0f, 0.0f);
+		pCamera->PointRotatMove(1.0f, 0.0f, 0.0f);
 	if (GetKey->Press(DIK_DOWN))
-		pCamera->Rotation(-1.0f, 0.0f, 0.0f);
+		pCamera->PointRotatMove(-1.0f, 0.0f, 0.0f);
 	if (GetKey->Press(DIK_LEFT))
 		pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
+		//pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
 	if (GetKey->Press(DIK_RIGHT))
-		pCamera->Rotation(0.0f, -1.0f, 0.0f);
+		pCamera->PointRotatMove(0.0f, -1.0f, 0.0f);
 
 	if (GetKey->Press(DIK_RETURN))
-		pTex->Translation({ 0.0f, 0.0f, 1.0f });
+		pCamera->PointRotatMove(0.0f, 0.0f, 1.0f);
 
 	draw();		//•`‰æ‚ÍŽU‚ç‚©‚é‚©‚çdraw‚É‘‚¢‚Ä‚Ë
 	return this;	//ó‘Ô‘JˆÚ‚ª‚È‚¯‚ê‚ÎŽ©•ª‚ð•Ô‚·
@@ -39,10 +40,11 @@ void MainLoop::draw(){
 	/*=================•`‰æˆ—===================*/
 	pLight->InitLight();
 	pCamera->Projection(GetD3DDevice);
+	imaage->Draw();
 	//‚¢‚ç‚È‚¢ˆ—
 	D3DXMATRIX wld;
 	D3DXMatrixIdentity(&wld);
-	pTex->Draw(&wld);
+	pTex->Draw(pCamera->GetCameraPos(),pCamera->GetLookPos(),pCamera->GetUpVect());
 
 	
 	
@@ -63,6 +65,9 @@ MainLoop::MainLoop(){
 	pTex->SetTexSize(10.0f, 10.0f);
 	pTex->Translation({ 100.0f, 0.0f, 0.0f });
 
+	imaage = new cImage3D(new Texture3D("004.jpg"));
+	imaage->SetTexSize(10.0f, 10.0f);
+	imaage->Translation({ 100.0f, 0.0f, 10.0f });
 
 	pLight = new cLight;
 }

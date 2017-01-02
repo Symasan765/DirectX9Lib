@@ -34,7 +34,7 @@ public:
 	/*===向いている方向への移動===*/
 	void VectMove(const float);	
 	/*===各行列のポインタ取得===*/
-	D3DXMATRIX* GetWorldMatrix();
+	virtual D3DXMATRIX* GetWorldMatrix();
 	D3DXMATRIX* GetScaleMatrix();
 	D3DXMATRIX* GetRotatMatrix();
 	D3DXMATRIX* GetTransMatrix();
