@@ -89,15 +89,17 @@ Texture3D::~Texture3D()
 /*===================================================
 //	関数	:	テクスチャを描画する関数						//
 ===================================================*/
-void Texture3D::Draw(D3DXMATRIX* mtx){
+void Texture3D::Draw(D3DXMATRIX* mtx, bool texFlag){
 	GetD3DDevice->SetTransform(D3DTS_WORLD, mtx);
 	// ライティングモードをOFF
 	GetD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	GetD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);	//色をつける(初期はコンストラクタにより白)
 
 	//テクスチャの有無で処理を分ける
 	if (pTex)
 	{
-		GetD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+		if (texFlag)
+			GetD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 		GetD3DDevice->SetTexture(0, pTex);
 		GetD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, vx, sizeof(VERTEX3D));
 	}
@@ -233,9 +235,21 @@ void Texture3D::ScrollUV(const float moveU, const float moveV){
 	vx[3].tv += moveV;
 }
 
+void Texture3D::AlphaBlendStart(){
+	//加算ブレンド
+	GetD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+}
+
+void Texture3D::AlphaBlendEnd(){
+	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+}
+
 Texture3D* cImage3D::GetTexture(){
 	return pTex;
 }
+
 
 void cImage3D::SetTexSize(const float sizeX, const float sizeY){
 	if (pTex)
@@ -262,16 +276,13 @@ cImage3D::~cImage3D(){
 	}
 }
 
-//void Texture3D::SetBillboard(D3DXVECTOR3 LookVct, D3DXVECTOR3 UpVct){
-//	D3DXMatrixIdentity(&Inv);
-//	D3DXMatrixLookAtLH(&Inv, &D3DXVECTOR3(0, 0, 0), &LookVct, &UpVct);
-//	D3DXMatrixInverse(&Inv, NULL, &Inv);
-//
-//	if (BillBoardFlg == false){
-//		for (int i = 0; i < 4; i++){
-//			vx[i].y = vx[i].z;	//縦方向に立たせる
-//			vx[i].z = 0;
-//		}
-//		BillBoardFlg = true;
-//	}
-//}
+void cImage3D::AlphaBlendStart(){
+	//加算ブレンド
+	GetD3DDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+}
+
+void cImage3D::AlphaBlendEnd(){
+	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+}

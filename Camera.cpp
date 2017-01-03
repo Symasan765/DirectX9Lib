@@ -214,6 +214,7 @@ void cCamera::RotationAxisZ(const D3DXVECTOR3& tag, const float dgr){
 	Translation({ tag.x, tag.y, tag.z });
 }
 
+
 D3DXMATRIX* cCamera::GetWorldMatrix(){
 	return &mtxDate.mtxWorld;
 }

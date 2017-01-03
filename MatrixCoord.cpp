@@ -20,7 +20,9 @@ void cMatrix::MatrixCalculation(){
 }
 
 void cMatrix::Scaling(const float rate){
-	D3DXMatrixScaling(&mtxDate.mtxScale,rate, rate, rate);
+	D3DXMATRIX mtxBuf;
+	D3DXMatrixScaling(&mtxBuf, rate, rate, rate);
+	mtxDate.mtxScale *= mtxBuf;
 }
 
 void cMatrix::Translation(const D3DXVECTOR3 pos){
@@ -40,7 +42,9 @@ void cMatrix::Rotation(const float bX, const float bY, const float bZ){
 }
 
 void cMatrix::SetScaling(const float rate){
-	D3DXMatrixScaling(&mtxDate.mtxScale, rate, rate, rate);
+	D3DXMATRIX mtxBuf;
+	D3DXMatrixScaling(&mtxBuf, rate, rate, rate);
+	mtxDate.mtxScale = mtxBuf;
 }
 
 void cMatrix::SetRotate(const float bX, const float bY, const float bZ){

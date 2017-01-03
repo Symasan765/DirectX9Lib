@@ -13,6 +13,7 @@
 class cCamera;
 class cLight;
 class cFighter;
+class cFlame;
 
 /**
 *	MainLoopクラスのコンストラクタはプログラム開始直後に呼ばれ、
@@ -28,7 +29,7 @@ private:
 	void draw();
 	cCamera* pCamera;	//!<　@brief カメラ操作用ポインタ
 	cLight* pLight;		//!<　@brief ライト操作用ポインタ
-	cBillboard* pTex;
+	cFlame* pTex;
 	cImage3D* imaage;
 };
 

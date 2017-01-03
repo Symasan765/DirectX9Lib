@@ -4,6 +4,7 @@
 #include "Light.h"
 #include <ctime>
 #include "Input.h"
+#include "Particle.h"
 
 
 /*===================================================
@@ -19,13 +20,12 @@ cGameTrans* MainLoop::update(cGameTrans* Parent){
 		pCamera->PointRotatMove(-1.0f, 0.0f, 0.0f);
 	if (GetKey->Press(DIK_LEFT))
 		pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
-		//pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
+	//pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
 	if (GetKey->Press(DIK_RIGHT))
 		pCamera->PointRotatMove(0.0f, -1.0f, 0.0f);
-
+	pTex->Update();
 	if (GetKey->Press(DIK_RETURN))
 		pCamera->PointRotatMove(0.0f, 0.0f, 1.0f);
-
 	draw();		//•`‰æ‚ÍŽU‚ç‚©‚é‚©‚çdraw‚É‘‚¢‚Ä‚Ë
 	return this;	//ó‘Ô‘JˆÚ‚ª‚È‚¯‚ê‚ÎŽ©•ª‚ð•Ô‚·
 }
@@ -44,10 +44,10 @@ void MainLoop::draw(){
 	//‚¢‚ç‚È‚¢ˆ—
 	D3DXMATRIX wld;
 	D3DXMatrixIdentity(&wld);
-	pTex->Draw(pCamera->GetCameraPos(),pCamera->GetLookPos(),pCamera->GetUpVect());
+	pTex->Draw(pCamera->GetCameraPos(), pCamera->GetLookPos(), pCamera->GetUpVect());
 
-	
-	
+
+
 	/*===========================================*/
 
 	DrawEnd();		//End‚ð‘‚¢‚Ä‚¨‚­‚Æ‚»‚ÌŠÔ‚Éˆ—‚ð‘‚¯‚ÎÏ‚Þ‚æI
@@ -59,11 +59,12 @@ void MainLoop::draw(){
 ===================================================*/
 MainLoop::MainLoop(){
 	srand((unsigned)time(NULL));
-	pCamera = new cCamera({ 100.0f, 0.0f, -20.0f }, { 100, 0, 0 }, { 0, 1, 0 });		//ƒJƒƒ‰
-	
-	pTex = new cBillboard(new Texture3D("004.jpg"));
-	pTex->SetTexSize(10.0f, 10.0f);
-	pTex->Translation({ 100.0f, 0.0f, 0.0f });
+	pCamera = new cCamera({ 100.0f, 0.0f, -100.0f }, { 100, 0, 0 }, { 0, 1, 0 });		//ƒJƒƒ‰
+
+	pTex = new cFlame({ 100.0f, 0.0f, 0.0f }, { 0, 1, 0 }, new Texture3D("MODEL/Particle/flame.png"), 200, 1.5f, 7.0f, 30,3.0f);
+	/*pTex = new cBillboard(new Texture3D("MODEL/Particle/flame.png"));
+	pTex->SetTexSize(1.0f, 1.0f);
+	pTex->Translation({ 100.0f, 0.0f, 0.0f });*/
 
 	imaage = new cImage3D(new Texture3D("004.jpg"));
 	imaage->SetTexSize(10.0f, 10.0f);
@@ -85,4 +86,6 @@ MainLoop::~MainLoop(){
 
 	delete pTex;
 	pTex = nullptr;
+
+	delete imaage;
 }

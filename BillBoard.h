@@ -10,7 +10,6 @@ public:
 	cBillboard(Texture3D*);
 	virtual ~cBillboard();
 	virtual void Draw(D3DXVECTOR3 Pos,D3DXVECTOR3 LookVct, D3DXVECTOR3 UpVct);
-private:
 };
 
 #endif

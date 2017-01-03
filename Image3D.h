@@ -28,13 +28,14 @@ class Texture3D{
 public:
 	Texture3D(const char*, const short = 0, const unsigned char = 1, const unsigned char = 1);
 	virtual ~Texture3D();
-	virtual void Draw(D3DXMATRIX*);
+	virtual void Draw(D3DXMATRIX*,bool = true);		//引数にfalseをわたすとセットテクスチャをスルー出来る
 	void Scale(const float);
 	void SetSize(const float, const float);
 	void SetTextureUV(short, const unsigned char, const unsigned char);
 	void SetColor(D3DCOLOR);
 	void ScrollUV(const float, const float);
-	void SetBillboard(D3DXVECTOR3, D3DXVECTOR3);
+	void AlphaBlendStart();
+	void AlphaBlendEnd();
 	COORD GetCenter() const;
 private:
 	VERTEX3D vx[4];				//頂点情報
@@ -60,6 +61,8 @@ public:
 	*/
 	void SetTexSize(const float sizeX, const float sizeY);
 	virtual void Draw();
+	void AlphaBlendStart();
+	void AlphaBlendEnd();
 protected:
 	Texture3D* pTex;		//!<　@brief テクスチャポインタ
 };
