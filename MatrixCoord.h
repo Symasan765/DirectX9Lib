@@ -21,6 +21,7 @@ typedef struct{
 class cMatrix{
 public:
 	cMatrix();
+	virtual ~cMatrix() = default;
 	/*===拡大縮小・移動・回転===*/
 	virtual void Scaling(const float);
 	virtual void Translation(const D3DXVECTOR3);
@@ -32,12 +33,13 @@ public:
 	/*===ワールド行列へ計算を行う(これ残すだろうか…)===*/
 	void MatrixCalculation();
 	/*===向いている方向への移動===*/
-	void VectMove(const float);	
+	virtual void VectMove(const float);
 	/*===各行列のポインタ取得===*/
 	virtual D3DXMATRIX* GetWorldMatrix();
 	D3DXMATRIX* GetScaleMatrix();
 	D3DXMATRIX* GetRotatMatrix();
 	D3DXMATRIX* GetTransMatrix();
+	D3DXVECTOR3 GetPosition()const;
 protected:
 	void OwnAxisRotateX(const float);			//任意軸回転X
 	void OwnAxisRotateY(const float);			//任意軸回転Y

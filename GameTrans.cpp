@@ -1,9 +1,16 @@
+/**
+* @file GameTrans.cpp
+* @brief 状態遷移の規定クラス
+* @author 松本雄之介
+* @date 2016/12/21
+*/
 #include "GameTrans.h"
 #include "GameManager.h"
 
 /*描画スタート*/
 void cGameTrans::DrawBegine(){
-	GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(17, 98, 154), 1.0f, 0);
+	//GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(17, 98, 154), 1.0f, 0);
+	GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	GetD3DDevice->BeginScene();		//描画開始
 }

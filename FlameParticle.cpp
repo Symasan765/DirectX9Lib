@@ -9,7 +9,17 @@
 #include <new>	//引数付き配列のコンストラクタを設定するために必要
 #include <time.h>
 
-cFlame::cFlame(D3DXVECTOR3 pos, D3DXVECTOR3 move, Texture3D* bTex, const int num, const float SetR, const float SetHei, const int life,const float setSize){
+//float frand(unsigned v) {
+//	unsigned res = (v >> 9) | 0x3f800000;
+//	return (*(float*)&res) - 1.0f;
+//}
+
+float frand(unsigned v) {
+	v %= 100;
+	return (float)v / 100;
+}
+
+cFlame::cFlame(D3DXVECTOR3 pos, D3DXVECTOR3 move, Texture3D* bTex, const int num, const float SetR, const float SetHei, const int life, const float setSize){
 	orginPos = pos;
 	D3DXVec3Normalize(&moveVector, &move);
 	pParticleTex = bTex;
@@ -31,9 +41,11 @@ cFlame::cFlame(D3DXVECTOR3 pos, D3DXVECTOR3 move, Texture3D* bTex, const int num
 }
 
 cFlame::~cFlame(){
+	for (int i = 0; i < particleNo; i++)
+		(pParticle + i)->SetTexNull();
 	delete[] pParticle;
 	pParticle = nullptr;
-	delete[] pParticleTex;
+	delete pParticleTex;
 	pParticle = nullptr;
 }
 
@@ -58,11 +70,12 @@ void cFlame::Draw(D3DXVECTOR3 Pos, D3DXVECTOR3 LookVct, D3DXVECTOR3 UpVct){
 	//描画開始
 	for (int i = 1; i < particleNo; ++i){
 		if ((pParticle + i)->flag){
-			(pParticle + i)->Scaling(0.95);
+			(pParticle + i)->Scaling(0.9f);
 			//(pParticle + i)->Rotation(0.0f, 0.0f, 1.0f);
 			(pParticle + i)->Draw(&Inv, false);
 		}
 	}
+
 	pParticle->AlphaBlendEnd();
 }
 
@@ -76,7 +89,7 @@ void cFlame::SetMoveVect(D3DXVECTOR3 move){
 }
 
 void cFlame::Update(){
-	
+
 	//まずは現存するものの移動処理
 	for (int i = 0; i < particleNo; ++i){
 		//生存しているか？
@@ -91,7 +104,7 @@ void cFlame::Update(){
 				(pParticle + i)->SetColor(D3DCOLOR_XRGB(0xFF, 0x66, 0x00));
 			else if ((pParticle + i)->life < maxLife / 8)
 				(pParticle + i)->SetColor(D3DCOLOR_XRGB(0xFF, 0xFF, 0xFF));
-			
+
 			if ((pParticle + i)->life <= 0)
 				(pParticle + i)->flag = false;		//消滅
 		}
@@ -107,18 +120,27 @@ void cFlame::Update(){
 				D3DXVECTOR3 pos = orginPos;
 				D3DXVECTOR3 vec = moveVector;
 				int setLife = maxLife - (rand() % (maxLife / 2) + (maxLife / 2));
-				pos.x += (rand() % ((int)radius * 2)) - radius;
+				/*pos.x += (rand() % ((int)radius * 2)) - radius;
 				pos.y += (rand() % ((int)radius * 2)) - radius;
-				pos.z += (rand() % ((int)radius * 2)) - radius;
+				pos.z += (rand() % ((int)radius * 2)) - radius;*/
+				if (radius >= 1.0f){
+					pos.x += (float)((rand() % ((int)radius * 2)) - radius);
+					pos.y += (float)((rand() % ((int)radius * 2)) - radius);
+					pos.z += (float)((rand() % ((int)radius * 2)) - radius);
+				}
+				pos.x += (frand(rand()));
+				pos.y += (frand(rand()));
+				pos.z += (frand(rand()));
+
 
 				float ti = height / setLife;
 				vec *= ti;
 
 				(pParticle + i)->SetParticle(pos, vec, setLife);
-				(pParticle + i)->SetTexSize(size,size);
+				(pParticle + i)->SetTexSize(size, size);
 				pFlag = false;
 			}
-				
+
 		}
 	}
 }

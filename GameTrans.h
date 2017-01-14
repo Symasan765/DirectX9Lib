@@ -13,11 +13,10 @@
 class cGameTrans{
 public:
 	cGameTrans(){};
-	virtual ~cGameTrans(){};
+	virtual ~cGameTrans() = default;
 	virtual cGameTrans* update(cGameTrans*) = 0;
 	void DrawBegine();	//描画スタート
 	void DrawEnd();		//描画エンド
-private:
 	virtual void draw() = 0;
 };
 

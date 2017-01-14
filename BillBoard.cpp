@@ -1,11 +1,13 @@
+/**
+* @file BillBoard.cpp
+* @brief ビルボードの取り扱いを行う
+* @author 松本雄之介
+* @date 2017/1/4
+*/
 #include "BillBoard.h"
 #include "Input.h"
 #include "GameManager.h"
 cBillboard::cBillboard(Texture3D* texture) : cImage3D(texture){
-
-}
-
-cBillboard::~cBillboard(){
 
 }
 
@@ -14,7 +16,7 @@ void cBillboard::Draw(D3DXVECTOR3 Pos,D3DXVECTOR3 LookVct, D3DXVECTOR3 UpVct){
 	D3DXVECTOR3 move;
 	move = Pos - LookVct;
 	move *= -1;
-
+	//カメラの逆行列を作成する
 	D3DXMatrixIdentity(&mtxDate.mtxRot);
 	D3DXMatrixLookAtLH(&mtxDate.mtxRot, &D3DXVECTOR3{ 0, 0, 0 }, &move, &UpVct);
 	mtxDate.mtxRot._41 = 0;
@@ -26,9 +28,10 @@ void cBillboard::Draw(D3DXVECTOR3 Pos,D3DXVECTOR3 LookVct, D3DXVECTOR3 UpVct){
 	
 	mtxDate.mtxRot *= mtxDate.mtxScale * mtxDate.mtxTrans;
 
-
-	pTex->SetColor(D3DCOLOR_XRGB(0xFF, 0x00, 0x00));
-	AlphaBlendStart();
 	pTex->Draw(&mtxDate.mtxRot);
-	AlphaBlendEnd();
+}
+
+
+void cBillboard::SetTexNull(){
+	pTex = nullptr;
 }

@@ -29,7 +29,7 @@
 class cCamera : public cMatrix{
 public:
 	cCamera(D3DXVECTOR3, D3DXVECTOR3, D3DXVECTOR3);
-	~cCamera();
+	virtual ~cCamera() = default;
 	void Projection(const LPDIRECT3DDEVICE9);
 	virtual void Scaling(const float);
 	virtual void Rotation(const float, const float, const float);		//FPS‰ñ“]

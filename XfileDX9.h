@@ -8,12 +8,14 @@
 #ifndef INC_X_FILE_H
 #define INC_X_FILE_H
 
+#include <Windows.h>
 #include <d3dx9.h>
+#include "MatrixCoord.h"
 
 class xFileClass{
 public:
 	xFileClass();
-	~xFileClass();
+	virtual ~xFileClass();
 	HRESULT LoadFile(const char*);
 	void Draw(D3DXMATRIX*);
 private:
@@ -21,6 +23,12 @@ private:
 	LPD3DXBUFFER pd3dxBuffer;			// マテリアルデータへのポイントを保持
 	LPDIRECT3DTEXTURE9* pTex;
 	int numMatModel;						// マテリアルの数を保持
+};
+
+class cModel3D : public xFileClass, public cMatrix{
+public:
+	cModel3D() = default;
+	virtual ~cModel3D() = default;
 };
 
 #endif

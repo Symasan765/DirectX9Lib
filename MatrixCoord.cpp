@@ -117,3 +117,9 @@ void cMatrix::SetTrans(const D3DXVECTOR3 pos){
 	D3DXMatrixTranslation(&mtxBuf, pos.x, pos.y, pos.z);
 	mtxDate.mtxTrans = mtxBuf;
 }
+
+D3DXVECTOR3 cMatrix::GetPosition()const{
+	D3DXVECTOR3 pos(0,0,0);
+	D3DXVec3TransformCoord(&pos, &pos, &mtxDate.mtxTrans);	//ƒxƒNƒgƒ‹‚ð‰ñ“]
+	return pos;
+}

@@ -75,6 +75,8 @@ Texture3D::Texture3D(const char* fileName, const short anmNo, const unsigned cha
 
 	vx[3].x = NULL;
 	vx[3].y = NULL;
+
+	colorFlag = true;
 }
 
 /*===================================================
@@ -93,8 +95,9 @@ void Texture3D::Draw(D3DXMATRIX* mtx, bool texFlag){
 	GetD3DDevice->SetTransform(D3DTS_WORLD, mtx);
 	// ライティングモードをOFF
 	GetD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	GetD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);	//色をつける(初期はコンストラクタにより白)
-
+	if (colorFlag)
+		GetD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);	//色をつける(初期はコンストラクタにより白)
+	
 	//テクスチャの有無で処理を分ける
 	if (pTex)
 	{
@@ -246,6 +249,10 @@ void Texture3D::AlphaBlendEnd(){
 	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
+void Texture3D::SetNotColor(){
+	colorFlag = false;
+}
+
 Texture3D* cImage3D::GetTexture(){
 	return pTex;
 }
@@ -264,11 +271,9 @@ void cImage3D::Draw(){
 }
 
 cImage3D::cImage3D(Texture3D* texture){
-	if (!pTex)
-		delete pTex;
-
 	pTex = texture;
 }
+
 cImage3D::~cImage3D(){
 	if (pTex){
 		delete pTex;
@@ -285,4 +290,28 @@ void cImage3D::AlphaBlendStart(){
 
 void cImage3D::AlphaBlendEnd(){
 	GetD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+}
+
+void cImage3D::VectMove(const float speed){
+	D3DXVECTOR3 vect(0.0f, 1.0f * speed, 0.0f);		//スピード基準
+	D3DXVec3TransformCoord(&vect, &vect, &mtxDate.mtxRot);
+
+	Translation(vect);
+}
+
+void cImage3D::SetColor(D3DCOLOR DIF)
+{
+	pTex->SetColor(DIF);
+}
+
+void cImage3D::SetTextureUV(short anmNo, const unsigned char widthNo, const unsigned char heightNo){
+	pTex->SetTextureUV(anmNo, widthNo, heightNo);
+}
+
+void cImage3D::SetNotColor(){
+	pTex->SetNotColor();
+}
+
+void cImage3D::ScrollUV(const float moveU, const float moveV){
+	pTex->ScrollUV(moveU, moveV);
 }

@@ -9,6 +9,8 @@
 
 #include "BillBoard.h"
 
+float frand(unsigned v);
+
 /**
 *	@brief　粒子一つ分のデータ
 *	[例]最低限のメソッドが揃っています。

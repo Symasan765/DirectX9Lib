@@ -11,6 +11,7 @@
 #include "Input.h"
 #include "GameTrans.h"
 #include "Main.h"
+#include "XAudio2.h"		//TODO
 
 //外に見せる必要のないどうしようもないやつ
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -66,6 +67,7 @@ void cGameManager::Init(HINSTANCE arghInstance, int argnCmdShow){
 	/*==========ウィンドウ表示===========*/
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
+	InitSound();
 
 	//====================各初期化処理======================
 	pFrameRate = new cFrameRateCtrl();	//FPSコントロールクラス
@@ -133,6 +135,7 @@ void cGameManager::Create(HINSTANCE arghInstance, int argnCmdShow){
 void cGameManager::Destroy(){
 	delete pGameManager;
 	pGameManager = nullptr;
+	UninitSound();
 }
 
 cGameManager::~cGameManager(){

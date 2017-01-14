@@ -1,11 +1,5 @@
 #include "Main.h"
-#include "GameManager.h"
-#include "Camera.h"
-#include "Light.h"
-#include <ctime>
-#include "Input.h"
-#include "Particle.h"
-
+#include "Texture_Class.h"
 
 /*===================================================
 //	メイン処理
@@ -14,19 +8,21 @@
 ===================================================*/
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================メイン処理を書いて============================*/
-	if (GetKey->Press(DIK_UP))
-		pCamera->PointRotatMove(1.0f, 0.0f, 0.0f);
-	if (GetKey->Press(DIK_DOWN))
-		pCamera->PointRotatMove(-1.0f, 0.0f, 0.0f);
-	if (GetKey->Press(DIK_LEFT))
-		pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
-	//pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
-	if (GetKey->Press(DIK_RIGHT))
-		pCamera->PointRotatMove(0.0f, -1.0f, 0.0f);
-	pTex->Update();
-	if (GetKey->Press(DIK_RETURN))
-		pCamera->PointRotatMove(0.0f, 0.0f, 1.0f);
-	draw();		//描画は散らかるからdrawに書いてね
+	cGameTrans* next = pTrans->update(this);	//更新処理と次に実行する処理を取得する
+
+	//次に実行する処理と現存処理が異なればdelete
+	if (next != pTrans){
+		delete pTrans;
+		pTrans = next;
+		next = nullptr;
+	}
+	else{
+		//描画処理
+		pTrans->DrawBegine();
+		pTrans->draw();
+		pTrans->DrawEnd();
+	}
+	
 	return this;	//状態遷移がなければ自分を返す
 }
 
@@ -38,14 +34,6 @@ void MainLoop::draw(){
 	DrawBegine();	//あらかじめBegineと…
 
 	/*=================描画処理===================*/
-	pLight->InitLight();
-	pCamera->Projection(GetD3DDevice);
-	imaage->Draw();
-	//いらない処理
-	D3DXMATRIX wld;
-	D3DXMatrixIdentity(&wld);
-	pTex->Draw(pCamera->GetCameraPos(), pCamera->GetLookPos(), pCamera->GetUpVect());
-
 
 
 	/*===========================================*/
@@ -58,19 +46,11 @@ void MainLoop::draw(){
 //	ゲーム中で使用する変数はヘッダーで定義しここで初期化
 ===================================================*/
 MainLoop::MainLoop(){
-	srand((unsigned)time(NULL));
-	pCamera = new cCamera({ 100.0f, 0.0f, -100.0f }, { 100, 0, 0 }, { 0, 1, 0 });		//カメラ
-
-	pTex = new cFlame({ 100.0f, 0.0f, 0.0f }, { 0, 1, 0 }, new Texture3D("MODEL/Particle/flame.png"), 200, 1.5f, 7.0f, 30,3.0f);
-	/*pTex = new cBillboard(new Texture3D("MODEL/Particle/flame.png"));
-	pTex->SetTexSize(1.0f, 1.0f);
-	pTex->Translation({ 100.0f, 0.0f, 0.0f });*/
-
-	imaage = new cImage3D(new Texture3D("004.jpg"));
-	imaage->SetTexSize(10.0f, 10.0f);
-	imaage->Translation({ 100.0f, 0.0f, 10.0f });
-
-	pLight = new cLight;
+	//スタートはタイトルから
+	//pTrans = new Title();
+	//pTrans = new MainGame;
+	pTrans = new cCurtain;
+	//pTrans = new clear;
 }
 
 /*===================================================
@@ -78,14 +58,6 @@ MainLoop::MainLoop(){
 //	ゲーム中で使用した変数はきっちり後片付けしましょうね！
 ===================================================*/
 MainLoop::~MainLoop(){
-	delete pCamera;
-	pCamera = nullptr;
-
-	delete pLight;
-	pLight = nullptr;
-
-	delete pTex;
-	pTex = nullptr;
-
-	delete imaage;
+	delete pTrans;
+	pTrans = nullptr;
 }

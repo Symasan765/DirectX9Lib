@@ -1,3 +1,9 @@
+/**
+* @file Particle.cpp
+* @brief パーティクルの粒子を取り扱う
+* @author 松本雄之介
+* @date 2017/1/2
+*/
 #include "Particle.h"
 
 /**

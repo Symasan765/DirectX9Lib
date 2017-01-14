@@ -28,14 +28,9 @@ cCamera::cCamera(D3DXVECTOR3 cameraPos, D3DXVECTOR3 look, D3DXVECTOR3 up){
 	UpVect = up;
 
 	AngleOfView = MAXIMUM_MAGNIFICATION / 2.0f;		//画角平均値に設定
-	ViewScopeMax = 2000;
-	ViewScopeMin = 1;
+	ViewScopeMax = 10000;
+	ViewScopeMin = 5;
 }
-
-/**
-*	@brief デストラクタ。今のところ空関数
-*/
-cCamera::~cCamera(){};
 
 /**
 *	@brief プロジェクション変換を行い描画する

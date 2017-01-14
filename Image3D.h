@@ -36,10 +36,12 @@ public:
 	void ScrollUV(const float, const float);
 	void AlphaBlendStart();
 	void AlphaBlendEnd();
+	void SetNotColor();
 	COORD GetCenter() const;
 private:
 	VERTEX3D vx[4];				//頂点情報
 	LPDIRECT3DTEXTURE9 pTex;	//テクスチャポインタ変数
+	bool colorFlag;				//カラーを入れるか？
 };
 
 /**
@@ -61,8 +63,13 @@ public:
 	*/
 	void SetTexSize(const float sizeX, const float sizeY);
 	virtual void Draw();
+	void VectMove(const float speed);
 	void AlphaBlendStart();
 	void AlphaBlendEnd();
+	void SetColor(D3DCOLOR);
+	void SetTextureUV(short, const unsigned char, const unsigned char);
+	void SetNotColor();
+	void ScrollUV(const float, const float);
 protected:
 	Texture3D* pTex;		//!<　@brief テクスチャポインタ
 };
