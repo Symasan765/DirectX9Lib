@@ -8,21 +8,8 @@
 ===================================================*/
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================メイン処理を書いて============================*/
-	cGameTrans* next = pTrans->update(this);	//更新処理と次に実行する処理を取得する
 
-	//次に実行する処理と現存処理が異なればdelete
-	if (next != pTrans){
-		delete pTrans;
-		pTrans = next;
-		next = nullptr;
-	}
-	else{
-		//描画処理
-		pTrans->DrawBegine();
-		pTrans->draw();
-		pTrans->DrawEnd();
-	}
-	
+	draw();
 	return this;	//状態遷移がなければ自分を返す
 }
 
@@ -34,8 +21,42 @@ void MainLoop::draw(){
 	DrawBegine();	//あらかじめBegineと…
 
 	/*=================描画処理===================*/
+	//各々描画するぜ
 
+	int stage[6][10] = {
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 1, 1, 0, 2, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 },
+		{ 0, 3, 0, 2, 0, 0, 1, 1, 1, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+	};
 
+	Back->Draw();
+
+	for (int height = 0; height < 6; height++){
+		for (int width = 0; width < 10; width++){
+			switch (stage[height][width])
+			{
+			case 0:		//スルー
+				break;
+			case 1:
+				Block->SetPosition(width * 72,height * 72 + 10,72.0f,72.0f);
+				Block->Draw();
+				break;
+			case 2:
+				Adhesion->SetPosition(width * 72, height * 72 + 10, 72.0f, 72.0f);
+				Adhesion->Draw();
+				break;
+			case 3:
+				Character->SetPosition(width * 72, height * 72 + 10, 72.0f, 72.0f);
+				Character->Draw();
+				break;
+			default:
+				break;
+			}
+		}
+	}
 	/*===========================================*/
 
 	DrawEnd();		//Endを書いておくとその間に処理を書けば済むよ！
@@ -46,11 +67,11 @@ void MainLoop::draw(){
 //	ゲーム中で使用する変数はヘッダーで定義しここで初期化
 ===================================================*/
 MainLoop::MainLoop(){
-	//スタートはタイトルから
-	//pTrans = new Title();
-	//pTrans = new MainGame;
-	pTrans = new cCurtain;
-	//pTrans = new clear;
+	Back = new Texture2D("image/back.jpg");
+	Back->SetPosition(0.0f, 0.0f, 720.0f, 480.0f);
+	Character = new Texture2D("image/character.png");
+	Block = new Texture2D("image/block.png");
+	Adhesion = new Texture2D("image/special.png");
 }
 
 /*===================================================
@@ -58,6 +79,8 @@ MainLoop::MainLoop(){
 //	ゲーム中で使用した変数はきっちり後片付けしましょうね！
 ===================================================*/
 MainLoop::~MainLoop(){
-	delete pTrans;
-	pTrans = nullptr;
+	delete Back;
+	delete Character;
+	delete Block;
+	delete Adhesion;
 }

@@ -11,9 +11,9 @@
 /*=======================マクロ定義========================*/
 /* ここに記述するものはディスプレイサイズやフレームレートなどのゲームシステムを決定するもののみ */
 
-#define WINDOW_SCREEN_X		(1280)									//ウィンドウサイズ
-#define WINDOW_SCREEN_Y		(720)
-#define PROGRAM_TITLE			("ダース・インベーダー")		//プログラム名
+#define WINDOW_SCREEN_X		(720)									//ウィンドウサイズ
+#define WINDOW_SCREEN_Y		(480)
+#define PROGRAM_TITLE			("ステージ参考")		//プログラム名
 #define FRAME_RATE (60)													//フレームレート
 
 #endif
