@@ -9,7 +9,6 @@
 #define INC_MAIN_H
 #include "GameTrans.h"
 #include <d3dx9.h>
-class Texture2D;
 
 /**
 *	MainLoopクラスのコンストラクタはプログラム開始直後に呼ばれ、
@@ -23,10 +22,7 @@ public:
 	cGameTrans* update(cGameTrans*);
 	void draw();
 private:
-	Texture2D* Back;
-	Texture2D* Character;
-	Texture2D* Block;
-	Texture2D* Adhesion;
+	
 };
 
 

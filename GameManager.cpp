@@ -12,6 +12,7 @@
 #include "GameTrans.h"
 #include "Main.h"
 #include "XAudio2.h"		//TODO
+#include "Debug.h"
 
 //外に見せる必要のないどうしようもないやつ
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -21,6 +22,11 @@ cGameManager* cGameManager::GetInstance(){
 }
 
 void cGameManager::Init(HINSTANCE arghInstance, int argnCmdShow){
+	//デバッグモード中はまずコンソールを生成する
+#if _DEBUG
+	GetConsole;
+#endif
+
 	SystemError = true;	//エラーナシ状態
 
 	WNDCLASSEX wc;		//ウィンドウクラス
@@ -72,6 +78,8 @@ void cGameManager::Init(HINSTANCE arghInstance, int argnCmdShow){
 	//====================各初期化処理======================
 	pFrameRate = new cFrameRateCtrl();	//FPSコントロールクラス
 	GameLoop = new MainLoop;				//メイン処理部分
+
+
 }
 
 /*========================================================
@@ -139,6 +147,7 @@ void cGameManager::Destroy(){
 }
 
 cGameManager::~cGameManager(){
+	GetConsole->Destroy();
 	if (cGameManager::GetInstance()->GetD3dDevice() != NULL)
 		cGameManager::GetInstance()->GetD3dDevice()->Release();
 

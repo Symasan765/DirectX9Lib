@@ -9,6 +9,7 @@
 #include "GameTrans.h"
 #include "time.h"
 #include "Input.h"
+
 cGameManager* cGameManager::pGameManager = nullptr;		//À‘Ìƒ|ƒCƒ“ƒ^‚ğ‰Šú‰»
 
 /*================================================================================
