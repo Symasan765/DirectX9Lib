@@ -42,7 +42,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (cGameManager::GetInstance()->pFrameRate->FrameStart())	//フレームレート制御
 			{
 				GetKey->UpdateKeyboard();
-				GetGameManager->GameLoop->update(GetGameManager->GameLoop);	//ゲームループ内部
+
+				/*===================メインループ========================*/
+				cGameTrans* next = GetGameManager->GameLoop->update(GetGameManager->GameLoop);		//次に実行する遷移クラスを実行後に受け取る
+
+				//次に実行する処理と現存処理が異なればdelete
+				if (next != GetGameManager->GameLoop){
+					delete GetGameManager->GameLoop;
+					GetGameManager->GameLoop = next;
+					next = nullptr;
+				}
+				else{
+					//描画処理
+					GetGameManager->GameLoop->DrawBegine();
+					GetGameManager->GameLoop->draw();
+					GetGameManager->GameLoop->DrawEnd();
+				}
+				/*=======================================================*/
 			}
 		}
 	}

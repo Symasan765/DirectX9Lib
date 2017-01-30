@@ -10,27 +10,28 @@
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================メイン処理を書いて============================*/
 	//GetConsole->SetPos(0, 0);
-	GetConsole->Clear();
-	GetConsole->SetColor(BLACK, CORAL);
-	D_printf("もののけ姫\n");
-	if (GetKey->Press(DIK_RETURN))
-		D_printf("紅の豚");
-	draw();
+	if (GetKey->Press(DIK_RETURN)){
+		GetConsole->SetPos(0, 2);
+		GetConsole->SetColor(BLACK, WHITE);
+		printf("エンターキー押してるね");
+	}
+	else{
+		GetConsole->SetPos(0, 2);
+		GetConsole->SetColor(WHITE,BLACK);
+		printf("エンターキー押してない");
+	}
+	GetConsole->FrameRateDisp();
 	return this;	//状態遷移がなければ自分を返す
 }
 
 /*===================================================
 //	描画処理
-//	描画機能をここに書き込み、Updateで呼び出せばOK
+//	描画機能をここに書き込みめば自動で呼び出される
 ===================================================*/
 void MainLoop::draw(){
-	DrawBegine();	//あらかじめBegineと…
-
 	/*=================描画処理===================*/
 	
 	/*===========================================*/
-
-	DrawEnd();		//Endを書いておくとその間に処理を書けば済むよ！
 }
 
 /*===================================================

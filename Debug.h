@@ -13,24 +13,26 @@
 
 // デバッグモード時のみ使用されるprintf
 #ifdef _DEBUG
-#define D_printf(fmt, ...) printf(fmt, __VA_ARGS__)
+#define printf(fmt, ...) printf(fmt, __VA_ARGS__)
 #else
-#define D_printf(...)
+#define printf(...)
 #endif
 
+
 /*=======================よく使うのはここだよ============================*/
-#define GetConsole cDebugConsole::GetInstance()							//クラスの実体を取得する
+#define GetConsole cDebugConsole::GetInstance()							//コンソールの実体を取得する
 /*==================================================================*/
 
 /**
 *	@briefデバッグ用のコンソールウィンドウを管理する
-*	
+*	シングルトンで出来ている
 */
 class cDebugConsole{
 public:
 	void SetPos(const int, const int);
 	void SetColor(WORD font_color, WORD back_color);
 	void Clear();
+	void FrameRateDisp();
 
 	cDebugConsole(const cDebugConsole&) = delete;
 	cDebugConsole& operator=(const cDebugConsole&) = delete;
@@ -74,5 +76,6 @@ enum {
 //機能メモ
 //		_ASSERT_EXPR(bool,テキスト)		条件が真の時にプログラムを強制的に止める
 //		OutputDebugString(_T)			デバッグウィンドウに指定の文字列を表示させる
+//		SetConsoleTitle(TEXT("ほげ"));	ウィンドウのタイトルを変更する
 
 #endif
