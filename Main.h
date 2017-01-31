@@ -9,6 +9,10 @@
 #define INC_MAIN_H
 #include "GameTrans.h"
 #include <d3dx9.h>
+class cLight;
+class cModel3D;
+class cCamera;
+class cBillboard;
 
 /**
 *	MainLoopクラスのコンストラクタはプログラム開始直後に呼ばれ、
@@ -22,7 +26,11 @@ public:
 	cGameTrans* update(cGameTrans*);
 	void draw();
 private:
-	
+	cLight* pLight;
+	cModel3D* pDate;
+	cModel3D* pSky;
+	cCamera* pCamera;
+	cBillboard* pTex;
 };
 
 

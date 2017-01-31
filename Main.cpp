@@ -1,6 +1,11 @@
 #include "Main.h"
 #include "Debug.h"
 #include "Input.h"
+#include "XfileDX9.h"
+#include "Camera.h"
+#include "Light.h"
+#include "BillBoard.h"
+#include "GameManager.h"
 
 /*===================================================
 //	メイン処理
@@ -9,18 +14,7 @@
 ===================================================*/
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================メイン処理を書いて============================*/
-	//GetConsole->SetPos(0, 0);
-	if (GetKey->Press(DIK_RETURN)){
-		GetConsole->SetPos(0, 2);
-		GetConsole->SetColor(BLACK, WHITE);
-		printf("エンターキー押してるね");
-	}
-	else{
-		GetConsole->SetPos(0, 2);
-		GetConsole->SetColor(WHITE,BLACK);
-		printf("エンターキー押してない");
-	}
-	GetConsole->FrameRateDisp();
+	pTex->SetColor(pLight->GetLightColor());
 	return this;	//状態遷移がなければ自分を返す
 }
 
@@ -30,6 +24,12 @@ cGameTrans* MainLoop::update(cGameTrans* Parent){
 ===================================================*/
 void MainLoop::draw(){
 	/*=================描画処理===================*/
+	pLight->DayNightUpdate(30);
+	pLight->InitLight();
+	pCamera->Projection(GetD3DDevice);
+
+	pTex->Draw(pCamera->GetCameraPos(), pCamera->GetLookPos(), pCamera->GetUpVect());
+	pDate->Draw(pDate->GetWorldMatrix());
 	
 	/*===========================================*/
 }
@@ -39,7 +39,19 @@ void MainLoop::draw(){
 //	ゲーム中で使用する変数はヘッダーで定義しここで初期化
 ===================================================*/
 MainLoop::MainLoop(){
-	
+	pDate = new cModel3D;
+	pDate->LoadFile("MODEL/F15.x");
+
+	//pSky = new cModel3D;
+	//pSky->LoadFile("MODEL/Dome_Y301.x");
+
+	pCamera = new cCamera({ -10, 5, 10 }, { 0, 0, 0 }, { 0, 1, 0 });
+
+	pLight = new cLight;
+
+	pTex = new cBillboard(new Texture3D("IMAGE/Sky.jpg"));
+	pTex->SetTexSize(640, 360);
+	pTex->SetTrans({ 100, -50, -100 });
 }
 
 /*===================================================
@@ -47,5 +59,8 @@ MainLoop::MainLoop(){
 //	ゲーム中で使用した変数はきっちり後片付けしましょうね！
 ===================================================*/
 MainLoop::~MainLoop(){
-	
+	delete pDate;
+	delete pCamera;
+	delete pLight;
+	delete pTex;
 }
