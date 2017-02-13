@@ -7,6 +7,7 @@
 #include "Debug.h"
 #include <io.h>
 #include <Fcntl.h>
+#include "System.h"
 
 /**
 *	@brief コンソールを表示させるコンストラクタ
@@ -37,6 +38,8 @@ cDebugConsole::cDebugConsole(){
 
 	// ウインドウの左上端を( 0, 0 )、右下端を( WindowRect.right - WindowRect.left, WindowRect.bottom - WindowRect.top )に変更
 	MoveWindow(ConsoleWindow, 0, 0, WindowRect.right - WindowRect.left, WindowRect.bottom - WindowRect.top, TRUE);
+
+	SetConsoleTitle(TEXT("DebugWindow"));	//ウィンドウのタイトルを変更する
 #endif
 }
 
@@ -82,4 +85,30 @@ void cDebugConsole::Clear(){
 	SetColor(15, 0);
 	system("cls");
 #endif
+}
+
+void cDebugConsole::FrameRateDisp(){
+	static DWORD backTickCount, nowTickCount;
+	static int fps = 0;  // FPSカウント
+
+	nowTickCount = timeGetTime();
+
+	/* ＦＰＳを求めて表示する */
+	fps++;
+	if (nowTickCount - backTickCount >= 1000)
+	{
+		backTickCount = nowTickCount;
+		SetPos(0, 0);
+		if (fps > FRAME_RATE / 10 * 9){
+			SetColor(WHITE, BLACK);
+		}
+		else if (fps > FRAME_RATE / 10 * 5){
+			SetColor(BLACK, YELLOW);
+		}
+		else{
+			SetColor(WHITE, RED);
+		}
+		printf("FPS %d", fps);
+		fps = 0;
+	}
 }
