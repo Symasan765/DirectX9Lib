@@ -45,7 +45,7 @@ void MainLoop::draw(){
 MainLoop::MainLoop(){
 	pShader = new Shader();
 
-	pCamera = new cCamera({ 0.0f, 5.0f, -10.0f }, { 0, 0, 0 }, { 0, 1, 0 });
+	pCamera = new cCamera({ 0.0f, 10.0f, -10.0f }, { 0, 0, 0 }, { 0, 1, 0 });
 }
 
 /*===================================================

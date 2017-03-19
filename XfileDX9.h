@@ -44,6 +44,7 @@ private:
 	D3DXHANDLE                m_hmWIT;        // ローカル-ワールド変換行列
 	D3DXHANDLE                m_hvLightDir;    // ライトの方向
 	D3DXHANDLE                m_hvCol;        // 頂点色
+	D3DXHANDLE                m_hvEyePos;        // カメラ位置
 };
 
 #endif

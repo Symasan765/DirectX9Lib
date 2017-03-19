@@ -12,6 +12,7 @@ Shader::Shader(){
 	m_hmWVP = NULL;
 	m_hmWIT = NULL;
 	m_hvLightDir = NULL;
+	m_hvEyePos = NULL;
 
 	// シェーダの読み込み
 	LPD3DXBUFFER pErr = NULL;
@@ -29,6 +30,7 @@ Shader::Shader(){
 		m_hmWIT = m_pEffect->GetParameterByName(NULL, "mWIT");				//mWITへのハンドルを取得
 		m_hvLightDir = m_pEffect->GetParameterByName(NULL, "vLightDir");	//vLightDirへのハンドル取得
 		m_hvCol = m_pEffect->GetParameterByName(NULL, "vColor");				//vColorへのハンドル取得
+		m_hvEyePos = m_pEffect->GetParameterByName(NULL, "vEyePos");
 	}
 	if (pErr)
 		pErr->Release();
@@ -37,7 +39,7 @@ Shader::Shader(){
 }
 
 Shader::~Shader(){
-
+	m_pEffect->Release();
 }
 
 void Shader::Draw(D3DXMATRIX* wtx, D3DXMATRIX* iew, D3DXMATRIX* mroj){
@@ -101,6 +103,13 @@ void Shader::Draw(D3DXMATRIX* wtx, D3DXMATRIX* iew, D3DXMATRIX* mroj){
 		D3DXVec3Normalize((D3DXVECTOR3 *)&v, (D3DXVECTOR3 *)&v);
 		v.w = -0.3f;
 		m_pEffect->SetVector(m_hvLightDir, &v);
+
+		//視点を渡す
+		m = mWorld * m_mView;
+		D3DXMatrixInverse(&m, NULL, &m);
+		v = D3DXVECTOR4(0, 0, 0, 1);
+		D3DXVec4Transform(&v, &v, &m);
+		m_pEffect->SetVector(m_hvEyePos, &v);
 
 		pD3DXMat = (D3DXMATERIAL*)pd3dxBuffer->GetBufferPointer();
 		HRESULT hr = 0;
