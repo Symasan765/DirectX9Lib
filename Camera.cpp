@@ -29,7 +29,7 @@ cCamera::cCamera(D3DXVECTOR3 cameraPos, D3DXVECTOR3 look, D3DXVECTOR3 up){
 
 	AngleOfView = MAXIMUM_MAGNIFICATION / 2.0f;		//‰æŠp•½‹Ï’l‚ÉÝ’è
 	ViewScopeMax = 10000;
-	ViewScopeMin = 5;
+	ViewScopeMin = 1;
 }
 
 /**
@@ -45,11 +45,11 @@ void cCamera::Projection(const LPDIRECT3DDEVICE9 device){
 	D3DXMatrixLookAtLH(&mtxDate.mtxWorld, &Pos, &LookPt, &UpVect);
 	device->SetTransform(D3DTS_VIEW, &mtxDate.mtxWorld);
 
-	D3DXMATRIX mxPrj;
+	
 
 	//ƒJƒƒ‰‚Ì\}•ÏŠ·
-	D3DXMatrixPerspectiveFovLH(&mxPrj, D3DXToRadian(AngleOfView), (float)WINDOW_SCREEN_X / (float)WINDOW_SCREEN_Y, ViewScopeMin, ViewScopeMax);
-	device->SetTransform(D3DTS_PROJECTION, &mxPrj);
+	D3DXMatrixPerspectiveFovLH(&m_mxPrj, D3DXToRadian(AngleOfView), (float)WINDOW_SCREEN_X / (float)WINDOW_SCREEN_Y, ViewScopeMin, ViewScopeMax);
+	device->SetTransform(D3DTS_PROJECTION, &m_mxPrj);
 
 
 	device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);

@@ -14,7 +14,13 @@
 ===================================================*/
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================メイン処理を書いて============================*/
-	pTex->SetColor(pLight->GetLightColor());
+	if (GetKey->Press(DIK_LEFT)){
+		pCamera->PointRotatMove(0.0f, 10.0f, 0.0f);
+	}
+	else if (GetKey->Press(DIK_RIGHT)){
+		pCamera->PointRotatMove(0.0f, -10.0f, 0.0f);
+	}
+	
 	return this;	//状態遷移がなければ自分を返す
 }
 
@@ -24,13 +30,11 @@ cGameTrans* MainLoop::update(cGameTrans* Parent){
 ===================================================*/
 void MainLoop::draw(){
 	/*=================描画処理===================*/
-	pLight->DayNightUpdate(30);
-	pLight->InitLight();
 	pCamera->Projection(GetD3DDevice);
-
-	pTex->Draw(pCamera->GetCameraPos(), pCamera->GetLookPos(), pCamera->GetUpVect());
-	pDate->Draw(pDate->GetWorldMatrix());
-	
+	D3DXMATRIX buf;
+	D3DXMatrixIdentity(&buf);
+	pShader->Draw(&buf,pCamera->GetWorldMatrix(),pCamera->GetPrjMatrix());
+	//pShader->Draw(&buf);
 	/*===========================================*/
 }
 
@@ -39,19 +43,9 @@ void MainLoop::draw(){
 //	ゲーム中で使用する変数はヘッダーで定義しここで初期化
 ===================================================*/
 MainLoop::MainLoop(){
-	pDate = new cModel3D;
-	pDate->LoadFile("MODEL/F15.x");
+	pShader = new Shader();
 
-	//pSky = new cModel3D;
-	//pSky->LoadFile("MODEL/Dome_Y301.x");
-
-	pCamera = new cCamera({ -10, 5, 10 }, { 0, 0, 0 }, { 0, 1, 0 });
-
-	pLight = new cLight;
-
-	pTex = new cBillboard(new Texture3D("IMAGE/Sky.jpg"));
-	pTex->SetTexSize(640, 360);
-	pTex->SetTrans({ 100, -50, -100 });
+	pCamera = new cCamera({ 0.0f, 5.0f, -10.0f }, { 0, 0, 0 }, { 0, 1, 0 });
 }
 
 /*===================================================
@@ -59,8 +53,5 @@ MainLoop::MainLoop(){
 //	ゲーム中で使用した変数はきっちり後片付けしましょうね！
 ===================================================*/
 MainLoop::~MainLoop(){
-	delete pDate;
-	delete pCamera;
-	delete pLight;
-	delete pTex;
+	
 }

@@ -9,8 +9,8 @@
 
 /*描画スタート*/
 void cGameTrans::DrawBegine(){
-	GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(17, 98, 154), 1.0f, 0);
-	//GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(25, 0, 120), 1.0f, 0);
+	//GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(17, 98, 154), 1.0f, 0);
+	GetD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(25, 0, 120), 1.0f, 0);
 
 	GetD3DDevice->BeginScene();		//描画開始
 }

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <crtdbg.h>
 #include <Windows.h>
+#include <d3dx9.h>
 
 // デバッグモード時のみ使用されるprintf
 #ifdef _DEBUG
@@ -71,6 +72,15 @@ enum {
 	PINK = 13,
 	YELLOW = 14,
 	WHITE = 15
+};
+
+class DebugFont{
+public:
+	DebugFont();
+	~DebugFont();
+	void Draw();
+private:
+	LPD3DXFONT pD3dFont;
 };
 
 //機能メモ

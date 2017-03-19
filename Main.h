@@ -13,6 +13,7 @@ class cLight;
 class cModel3D;
 class cCamera;
 class cBillboard;
+class Shader;
 
 /**
 *	MainLoopクラスのコンストラクタはプログラム開始直後に呼ばれ、
@@ -26,11 +27,8 @@ public:
 	cGameTrans* update(cGameTrans*);
 	void draw();
 private:
-	cLight* pLight;
-	cModel3D* pDate;
-	cModel3D* pSky;
+	Shader* pShader;
 	cCamera* pCamera;
-	cBillboard* pTex;
 };
 
 

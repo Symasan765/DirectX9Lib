@@ -8,6 +8,7 @@
 #include <io.h>
 #include <Fcntl.h>
 #include "System.h"
+#include "GameManager.h"
 
 /**
 *	@brief コンソールを表示させるコンストラクタ
@@ -111,4 +112,16 @@ void cDebugConsole::FrameRateDisp(){
 		printf("FPS %d", fps);
 		fps = 0;
 	}
+}
+
+
+DebugFont::DebugFont(){
+	D3DXCreateFont(GetD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Terminal", &pD3dFont);
+}
+DebugFont::~DebugFont(){
+	pD3dFont->Release();
+}
+void DebugFont::Draw(){
+	RECT rect = { 100, 200, 300, 300 };
+	pD3dFont->DrawText(NULL, "デバッグ表示", -1, &rect, DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 255));
 }

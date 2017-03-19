@@ -17,11 +17,12 @@ public:
 	xFileClass();
 	virtual ~xFileClass();
 	HRESULT LoadFile(const char*);
-	void Draw(D3DXMATRIX*);
-private:
+	virtual void Draw(D3DXMATRIX*);
+protected:
 	LPD3DXMESH pd3dxMesh;				// メッシュデータへのポインタを保持
 	LPD3DXBUFFER pd3dxBuffer;			// マテリアルデータへのポイントを保持
 	LPDIRECT3DTEXTURE9* pTex;
+	D3DXMATERIAL* pD3DXMat;
 	int numMatModel;						// マテリアルの数を保持
 };
 
@@ -29,6 +30,20 @@ class cModel3D : public xFileClass, public cMatrix{
 public:
 	cModel3D() = default;
 	virtual ~cModel3D() = default;
+};
+
+class Shader : public xFileClass{
+public:
+	Shader();
+	~Shader();
+	void Draw(D3DXMATRIX*, D3DXMATRIX*, D3DXMATRIX*);
+private:
+	LPD3DXEFFECT              m_pEffect;        // エフェクト
+	D3DXHANDLE                m_hTechnique;    // テクニック
+	D3DXHANDLE                m_hmWVP;        // ローカル-射影変換行列
+	D3DXHANDLE                m_hmWIT;        // ローカル-ワールド変換行列
+	D3DXHANDLE                m_hvLightDir;    // ライトの方向
+	D3DXHANDLE                m_hvCol;        // 頂点色
 };
 
 #endif

@@ -40,10 +40,14 @@ public:
 	D3DXVECTOR3 GetUpVect()const;
 	D3DXVECTOR3 GetCameraPos()const;
 	D3DXMATRIX* GetWorldMatrix();
+	D3DXMATRIX* GetPrjMatrix(){
+		return &m_mxPrj;
+	}
 private:
 	void RotationAxisX(const D3DXVECTOR3&, const float);
 	void RotationAxisY(const D3DXVECTOR3&, const float);
 	void RotationAxisZ(const D3DXVECTOR3&, const float);
+	D3DXMATRIX m_mxPrj;
 	D3DXVECTOR3 LookPt;		//!<　@brief 注視点
 	D3DXVECTOR3 UpVect;		//!<　@brief カメラ上方向
 	float AngleOfView;		//!<　@brief 画角

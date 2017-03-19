@@ -23,6 +23,7 @@
 
 class cFrameRateCtrl;	//フレーム制御クラス
 class cGameTrans;		//状態遷移クラス
+class DebugFont;			//デバッグ文字クラス
 
 class cGameManager{
 public:

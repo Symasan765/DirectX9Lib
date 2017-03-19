@@ -78,8 +78,6 @@ void cGameManager::Init(HINSTANCE arghInstance, int argnCmdShow){
 	//====================各初期化処理======================
 	pFrameRate = new cFrameRateCtrl();	//FPSコントロールクラス
 	GameLoop = new MainLoop;				//メイン処理部分
-
-
 }
 
 /*========================================================
