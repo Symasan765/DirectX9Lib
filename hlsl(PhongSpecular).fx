@@ -65,8 +65,7 @@ float4 PS(VS_OUTPUT In) : COLOR
 	float3 N = normalize(In.N);
 
 
-	float4 color = In.Color + pow(max(0, dot(N, H)), 100);
-	return color;
+	return In.Color + pow(max(0, dot(N, H)), 200);
 }
 
 // -------------------------------------------------------------

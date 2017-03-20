@@ -15,10 +15,16 @@
 cGameTrans* MainLoop::update(cGameTrans* Parent){
 	/*=====================ƒƒCƒ“ˆ—‚ğ‘‚¢‚Ä============================*/
 	if (GetKey->Press(DIK_LEFT)){
-		pCamera->PointRotatMove(0.0f, 10.0f, 0.0f);
+		pCamera->PointRotatMove(0.0f, 1.0f, 0.0f);
 	}
 	else if (GetKey->Press(DIK_RIGHT)){
-		pCamera->PointRotatMove(0.0f, -10.0f, 0.0f);
+		pCamera->PointRotatMove(0.0f, -1.0f, 0.0f);
+	}
+	else if (GetKey->Press(DIK_UP)){
+		pCamera->PointRotatMove(1.0f, 0.0f, 0.0f);
+	}
+	else if (GetKey->Press(DIK_DOWN)){
+		pCamera->PointRotatMove(-1.0f, 0.0f, 0.0f);
 	}
 	
 	return this;	//ó‘Ô‘JˆÚ‚ª‚È‚¯‚ê‚Î©•ª‚ğ•Ô‚·
