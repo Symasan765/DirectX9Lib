@@ -2,7 +2,7 @@
 #include "GameManager.h"
 #include "Debug.h"
 
-Shader::Shader(){
+cMetalReflection::cMetalReflection(){
 	//シェーダファイルの読み込み
 	HRESULT hr;
 	D3DXVECTOR4 offset;
@@ -38,11 +38,11 @@ Shader::Shader(){
 	LoadFile("MODEL/F15.x");
 }
 
-Shader::~Shader(){
+cMetalReflection::~cMetalReflection(){
 	m_pEffect->Release();
 }
 
-void Shader::Draw(D3DXMATRIX* wtx, D3DXMATRIX* iew, D3DXMATRIX* mroj){
+void cMetalReflection::Draw(D3DXMATRIX* wtx, D3DXMATRIX* iew, D3DXMATRIX* mroj){
 	D3DXVECTOR3 cameraPos(0, 20, -20);
 	D3DXVECTOR3 cameraLook(0, 0, 0);
 	D3DXVECTOR3 cameraUp(0, 1, 0);

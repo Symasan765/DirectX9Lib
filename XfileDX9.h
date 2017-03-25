@@ -32,10 +32,10 @@ public:
 	virtual ~cModel3D() = default;
 };
 
-class Shader : public xFileClass{
+class cMetalReflection : public xFileClass{
 public:
-	Shader();
-	~Shader();
+	cMetalReflection();
+	~cMetalReflection();
 	void Draw(D3DXMATRIX*, D3DXMATRIX*, D3DXMATRIX*);
 private:
 	LPD3DXEFFECT              m_pEffect;        // エフェクト

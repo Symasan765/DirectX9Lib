@@ -49,7 +49,7 @@ void MainLoop::draw(){
 //	ゲーム中で使用する変数はヘッダーで定義しここで初期化
 ===================================================*/
 MainLoop::MainLoop(){
-	pShader = new Shader();
+	pShader = new cMetalReflection();
 
 	pCamera = new cCamera({ 0.0f, 10.0f, -10.0f }, { 0, 0, 0 }, { 0, 1, 0 });
 }
